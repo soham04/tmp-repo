@@ -4,11 +4,9 @@ const app = express();
 const server = require("http").createServer(app);
 const bodyParser = require("body-parser");
 const io = require("socket.io")(server);
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("./passport");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
-const User = require("./models/user")
 const room_history = require("./models/room-history")
 
 app.set("view engine", "ejs");
@@ -27,6 +25,15 @@ app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(require("./routes"))
+app.use((req, res, next) => {
+  const error = new Error("Not Found !")
+  // error.status(404)
+  next(error)
+})
+app.use((error, req, res, next) => {
+  // res.status(error.status || 500);
+  res.send("<h3>" + error.message + "</h3>")
+});
 
 async function main() {
   await mongoose.connect(process.env.MONGO_DB_LINK);
