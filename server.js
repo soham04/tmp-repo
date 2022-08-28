@@ -130,5 +130,5 @@ io.on("connection", (socket) => {
 // ! LISTENING ON THE PORT FOR REQUESTS
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
-  console.log(`Express server listening on port ${port} | GOTO http://localhost:3000/`);
+  console.log(`Express server listening on port ${port} | GOTO http://localhost:${port}`);
 });
